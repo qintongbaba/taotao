@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wuqinghua.taotao.manager.mapper.ItemCatMapper">
+
+    <resultMap id="itemCatResultMap" type="TTItemCat">
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="status" property="status"/>
+        <result column="sort_order" property="sortOrder"/>
+        <result column="is_parent" property="isParent"/>
+        <result column="created" property="created"/>
+        <result column="updated" property="updated"/>
+        <association property="parentItemCat" column="parent_id" javaType="TTItemCat">
+            <id column="id" property="id"/>
+            <result column="name" property="name"/>
+            <result column="status" property="status"/>
+            <result column="sort_order" property="sortOrder"/>
+            <result column="is_parent" property="isParent"/>
+            <result column="created" property="created"/>
+            <result column="updated" property="updated"/>
+        </association>
+    </resultMap>
+
+
+    <sql id="sql_column">
+      id,parent_id,name,status,sort_order,is_parent,created,updated
+    </sql>
+
+
+    <select id="listByParentId" parameterType="long" resultMap="itemCatResultMap">
+        select
+        <include refid="sql_column"/>
+        from tb_item_cat
+        <where>
+            <choose>
+                <when test="parentId==null">
+                    parent_id is null
+                </when>
+                <otherwise>
+                    parent_id = #{parentId}
+                </otherwise>
+            </choose>
+        </where>
+    </select>
+</mapper>

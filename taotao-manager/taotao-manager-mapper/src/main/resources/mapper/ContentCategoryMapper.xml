@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wuqinghua.taotao.manager.mapper.ContentCategoryMapper">
+    <resultMap id="BaseResultMap" type="TTContentCategory">
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="status" property="status"/>
+        <result column="sort_order" property="sortOrder"/>
+        <result column="is_parent" property="isParent"/>
+        <result column="created" property="created"/>
+        <result column="updated" property="updated"/>
+        <association property="parent" column="parent_id" javaType="TTContentCategory">
+            <id column="cid" property="id"/>
+            <result column="cname" property="name"/>
+            <result column="cstatus" property="status"/>
+            <result column="csort_order" property="sortOrder"/>
+            <result column="cis_parent" property="isParent"/>
+            <result column="ccreated" property="created"/>
+            <result column="cupdated" property="updated"/>
+        </association>
+    </resultMap>
+
+    <sql id="base_column">
+        id,name,status,sort_order,is_parent,created,updated
+    </sql>
+
+    <sql id="sql_column">
+        t.id,t.name,t.status,t.sort_order,t.is_parent,t.created,t.updated,
+        c.id as cid,c.name as cname,c.status as
+        cstatus,c.sort_order as csort_order,c.is_parent as cis_parent,c.created as
+        ccreated,c.updated as cupdated
+    </sql>
+
+    <select id="selectById" parameterType="long" resultMap="BaseResultMap">
+        select
+        <include refid="sql_column"/>
+        from tb_content_category t
+        left join tb_content_category c on t.parent_id=c.id
+        where t.id=#{id}
+    </select>
+
+
+    <!--根据父节点查询内容分类-->
+    <select id="selectByParent" resultMap="BaseResultMap" parameterType="long">
+        select
+        <include refid="base_column"/>
+        from tb_content_category
+        <where>
+            <choose>
+                <when test="parentId==null">
+                    parent_id is null
+                </when>
+                <otherwise>
+                    parent_id = #{parentId}
+                </otherwise>
+            </choose>
+        </where>
+    </select>
+
+    <!--新建分类-->
+    <insert id="insert" parameterType="TTContentCategory" useGeneratedKeys="true" keyColumn="id"
+            keyProperty="id">
+      insert into tb_content_category (parent_id,name,status,sort_order,is_parent,created,updated)
+        values (
+            #{parent.id},#{name},#{status},#{sortOrder},#{isParent},#{created},#{updated}
+        )
+    </insert>
+
+    <update id="update" parameterType="TTContentCategory">
+
+        update tb_content_category
+        <set>
+            <if test="parent!=null and parent.id!=null">
+                parent_id = #{parent.id},
+            </if>
+            <if test="name!=null">
+                name = #{name},
+            </if>
+            <if test="status!=null">
+                status = #{status},
+            </if>
+            <if test="sortOrder!=null">
+                sort_order = #{sortOrder},
+            </if>
+            <if test="isParent!=null">
+                is_parent = #{isParent},
+            </if>
+            <if test="created!=null">
+                created = #{created},
+            </if>
+            <if test="updated!=null">
+                updated = #{updated},
+            </if>
+        </set>
+        <where>
+            id = #{id}
+        </where>
+
+    </update>
+
+    <!--根据主键删除-->
+    <delete id="deleteById" parameterType="long">
+        delete from tb_content_category where id=#{id}
+    </delete>
+
+</mapper>

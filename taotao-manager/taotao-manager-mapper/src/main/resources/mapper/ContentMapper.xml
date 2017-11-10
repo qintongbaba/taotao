@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wuqinghua.taotao.manager.mapper.ContentMapper">
+    <resultMap id="BaseResultMap" type="TTContent">
+        <id column="id" property="id"/>
+        <result column="title" property="title"/>
+        <result column="sub_title" property="subTitle"/>
+        <result column="title_desc" property="titleDesc"/>
+        <result column="url" property="url"/>
+        <result column="pic" property="pic"/>
+        <result column="pic2" property="pic2"/>
+        <result column="content" property="content"/>
+        <result column="created" property="created"/>
+        <result column="updated" property="updated"/>
+        <association property="category" column="category_id" javaType="TTContentCategory">
+            <id column="c_id" property="id"/>
+            <result column="name" property="name"/>
+            <result column="status" property="status"/>
+            <result column="sort_order" property="sortOrder"/>
+            <result column="is_parent" property="isParent"/>
+            <result column="c_created" property="created"/>
+            <result column="c_updated" property="updated"/>
+        </association>
+    </resultMap>
+
+
+    <sql id="base_column">
+t.id,t.title,t.sub_title,t.title_desc,t.url,t.pic,t.pic2,t.content,t.created,t.updated,
+c.id as c_id,c.name,c.status,c.sort_order,c.is_parent,c.created as c_created,c.updated as c_updated
+
+    </sql>
+
+    <select id="listByCategroyId" parameterType="long" resultMap="BaseResultMap">
+        select
+        <include refid="base_column"/>
+        from tb_content t left join
+        tb_content_category c on t.category_id=c.id
+        where t.category_id=#{categroyId}
+    </select>
+
+
+    <insert id="insert" parameterType="TTContent">
+         insert into tb_content (category_id, title,
+      sub_title, title_desc, url,
+      pic, pic2, created,
+      updated, content)
+    values (#{category.id}, #{title},
+      #{subTitle}, #{titleDesc}, #{url},
+      #{pic}, #{pic2}, #{created},
+      #{updated}, #{content})
+    </insert>
+
+</mapper>

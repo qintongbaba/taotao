@@ -1,0 +1,8 @@
+ul,li {
+    list-style: none;
+}
+
+.pics ul li {
+    float: left;
+    padding-right: 5px;
+}

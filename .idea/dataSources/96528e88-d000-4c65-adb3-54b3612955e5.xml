@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataSource name="w_taotao@localhost">
+  <database-model serializer="dbm" rdbms="MYSQL" format-version="4.0">
+    <root id="1"/>
+    <schema id="2" parent="1" name="w_taotao">
+      <Current>1</Current>
+      <Visible>1</Visible>
+    </schema>
+    <schema id="3" parent="1" name="activiti"/>
+    <schema id="4" parent="1" name="actweb"/>
+    <schema id="5" parent="1" name="dbgirl"/>
+    <schema id="6" parent="1" name="demo_inxedu_v2_0_open"/>
+    <schema id="7" parent="1" name="edu"/>
+    <schema id="8" parent="1" name="information_schema"/>
+    <schema id="9" parent="1" name="mybatis"/>
+    <schema id="10" parent="1" name="mysql"/>
+    <schema id="11" parent="1" name="performance_schema"/>
+    <schema id="12" parent="1" name="sys"/>
+    <schema id="13" parent="1" name="taotao"/>
+    <table id="14" parent="2" name="tt_item">
+      <Comment>商品表</Comment>
+    </table>
+    <table id="15" parent="2" name="tt_item_cat">
+      <Comment>商品类目</Comment>
+    </table>
+    <column id="16" parent="14" name="id">
+      <Position>1</Position>
+      <Comment>商品id，同时也是商品编号</Comment>
+      <DataType>bigint(20)|0</DataType>
+      <NotNull>1</NotNull>
+      <SequenceIdentity>1</SequenceIdentity>
+    </column>
+    <column id="17" parent="14" name="title">
+      <Position>2</Position>
+      <Comment>商品标题</Comment>
+      <DataType>varchar(100)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="18" parent="14" name="sell_point">
+      <Position>3</Position>
+      <Comment>商品卖点</Comment>
+      <DataType>varchar(500)|0</DataType>
+    </column>
+    <column id="19" parent="14" name="price">
+      <Position>4</Position>
+      <Comment>商品价格，单位为：分</Comment>
+      <DataType>bigint(20)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="20" parent="14" name="num">
+      <Position>5</Position>
+      <Comment>库存数量</Comment>
+      <DataType>int(10)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="21" parent="14" name="barcode">
+      <Position>6</Position>
+      <Comment>商品条形码</Comment>
+      <DataType>varchar(30)|0</DataType>
+    </column>
+    <column id="22" parent="14" name="image">
+      <Position>7</Position>
+      <Comment>商品图片</Comment>
+      <DataType>varchar(500)|0</DataType>
+    </column>
+    <column id="23" parent="14" name="cid">
+      <Position>8</Position>
+      <Comment>所属类目，叶子类目</Comment>
+      <DataType>bigint(10)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="24" parent="14" name="status">
+      <Position>9</Position>
+      <Comment>商品状态，1-正常，2-下架，3-删除</Comment>
+      <DataType>tinyint(4)|0</DataType>
+      <NotNull>1</NotNull>
+      <DefaultExpression>&apos;1&apos;</DefaultExpression>
+    </column>
+    <column id="25" parent="14" name="created">
+      <Position>10</Position>
+      <Comment>创建时间</Comment>
+      <DataType>datetime|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="26" parent="14" name="updated">
+      <Position>11</Position>
+      <Comment>更新时间</Comment>
+      <DataType>datetime|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <index id="27" parent="14" name="FK_TT_ITEM_CID_TT_ITEM_CAT_ID">
+      <ColNames>cid</ColNames>
+    </index>
+    <key id="28" parent="14" name="PRIMARY">
+      <ColNames>id</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <foreign-key id="29" parent="14" name="FK_TT_ITEM_CID_TT_ITEM_CAT_ID">
+      <ColNames>cid</ColNames>
+      <RefSchemaName>w_taotao</RefSchemaName>
+      <RefTableName>tt_item_cat</RefTableName>
+      <RefColNames>id</RefColNames>
+    </foreign-key>
+    <column id="30" parent="15" name="id">
+      <Position>1</Position>
+      <Comment>类目ID</Comment>
+      <DataType>bigint(20)|0</DataType>
+      <NotNull>1</NotNull>
+      <SequenceIdentity>1</SequenceIdentity>
+    </column>
+    <column id="31" parent="15" name="parent_id">
+      <Position>2</Position>
+      <Comment>父类目ID=0时，代表的是一级的类目</Comment>
+      <DataType>bigint(20)|0</DataType>
+    </column>
+    <column id="32" parent="15" name="name">
+      <Position>3</Position>
+      <Comment>类目名称</Comment>
+      <DataType>varchar(50)|0</DataType>
+    </column>
+    <column id="33" parent="15" name="status">
+      <Position>4</Position>
+      <Comment>状态。可选值:1(正常),2(删除)</Comment>
+      <DataType>int(1)|0</DataType>
+      <DefaultExpression>&apos;1&apos;</DefaultExpression>
+    </column>
+    <column id="34" parent="15" name="sort_order">
+      <Position>5</Position>
+      <Comment>排列序号，表示同级类目的展现次序，如数值相等则按名称次序排列。取值范围:大于零的整数</Comment>
+      <DataType>int(4)|0</DataType>
+    </column>
+    <column id="35" parent="15" name="is_parent">
+      <Position>6</Position>
+      <Comment>该类目是否为父类目，1为true，0为false</Comment>
+      <DataType>tinyint(1)|0</DataType>
+      <DefaultExpression>&apos;1&apos;</DefaultExpression>
+    </column>
+    <column id="36" parent="15" name="created">
+      <Position>7</Position>
+      <Comment>创建时间</Comment>
+      <DataType>datetime|0</DataType>
+    </column>
+    <column id="37" parent="15" name="updated">
+      <Position>8</Position>
+      <Comment>创建时间</Comment>
+      <DataType>datetime|0</DataType>
+    </column>
+    <index id="38" parent="15" name="FK_TT_ITEM_CAT_PARENT_ID_TT_ITEM_CAT_ID">
+      <ColNames>parent_id</ColNames>
+    </index>
+    <key id="39" parent="15" name="PRIMARY">
+      <ColNames>id</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <foreign-key id="40" parent="15" name="FK_TT_ITEM_CAT_PARENT_ID_TT_ITEM_CAT_ID">
+      <ColNames>parent_id</ColNames>
+      <RefSchemaName>w_taotao</RefSchemaName>
+      <RefTableName>tt_item_cat</RefTableName>
+      <RefColNames>id</RefColNames>
+    </foreign-key>
+  </database-model>
+</dataSource>

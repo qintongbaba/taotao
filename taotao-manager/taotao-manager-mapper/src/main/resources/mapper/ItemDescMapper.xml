@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wuqinghua.taotao.manager.mapper.ItemDescMapper">
+
+    <sql id="base_column_list">
+        id,item_id, item_desc,created, updated
+    </sql>
+
+    <insert id="insert" parameterType="TTItemDesc">
+        insert into tb_item_desc (item_id, item_desc,created, updated)
+        values (#{item.id},#{itemDesc}, #{created}, #{updated})
+    </insert>
+</mapper>

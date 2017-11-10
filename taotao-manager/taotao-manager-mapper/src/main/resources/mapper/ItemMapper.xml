@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wuqinghua.taotao.manager.mapper.ItemMapper">
+
+
+    <resultMap id="itemResultMap" type="TTItem">
+        <id column="itemId" property="id"></id>
+        <result column="title" property="title"/>
+        <result column="sell_point" property="sellPoint"/>
+        <result column="price" property="price"/>
+        <result column="num" property="num"/>
+        <result column="barcode" property="barcode"/>
+        <result column="image" property="image"/>
+        <result column="itemStatus" property="status"/>
+        <result column="itemCreated" property="created"/>
+        <result column="itemUpdated" property="updated"/>
+        <association property="itemCat" column="cid"
+                     javaType="TTItemCat">
+            <id column="id" property="id"/>
+            <result column="name" property="name"/>
+            <result column="status" property="status"/>
+            <result column="sort_order" property="sortOrder"/>
+            <result column="is_parent" property="isParent"/>
+            <result column="created" property="created"/>
+            <result column="updated" property="updated"/>
+        </association>
+    </resultMap>
+
+    <sql id="sql_column">
+        i.id as itemId,i.title,i.sell_point,i.price,i.num,i.barcode,i.image,i.status as itemStatus,
+        i.created as itemCreated,i.updated as itemUpdated,c.id,c.name,c.status,c.sort_order,
+        c.is_parent,c.created,c.updated
+    </sql>
+
+    <sql id="base_column_list">
+        id, title, sell_point, price, num, barcode, image, cid, status, created, updated
+    </sql>
+
+    <!--新增商品-->
+    <insert id="insert" parameterType="TTItem">
+          insert into tb_item (id,title, sell_point, price, num, barcode, image, cid, status,
+          created, updated)
+            values ( #{id},#{title}, #{sellPoint},#{price}, #{num}, #{barcode},
+                 #{image}, #{itemCat.id}, #{status},#{created}, #{updated})
+    </insert>
+
+    <!--查询所有的商品-->
+    <select id="selectAllItem" resultMap="itemResultMap">
+        select
+        <include refid="sql_column"/>
+        from tb_item i left join tb_item_cat c
+        on i.cid = c.id
+    </select>
+</mapper>

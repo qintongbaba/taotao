@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wuqinghua.taotao.manager.mapper.ItemParamMapper">
+
+    <resultMap id="itemParamResultMap" type="TTItemParam">
+        <id column="id" property="id"></id>
+        <result column="param_data" property="paramData"></result>
+        <result column="created" property="created"></result>
+        <result column="updated" property="updated"></result>
+        <association property="itemCat" column="item_cat_id" javaType="TTItemCat">
+            <id column="cat_id" property="id"/>
+            <result column="name" property="name"/>
+            <result column="status" property="status"/>
+            <result column="sort_order" property="sortOrder"/>
+            <result column="is_parent" property="isParent"/>
+            <result column="cat_created" property="created"/>
+            <result column="cat_updated" property="updated"/>
+        </association>
+    </resultMap>
+
+    <sql id="base_sql_column">
+        id,item_cat_id,param_data,created,updated
+    </sql>
+
+    <sql id="sql_column">
+      p.id,p.param_data,p.created,p.updated,c.id as cat_id,c.name,c.status,c.sort_order,
+		c.is_parent,c.created as cat_created,c.updated as cat_updated
+    </sql>
+
+    <!--查询所有的规格参数-->
+    <select id="selectAll" resultMap="itemParamResultMap">
+        select
+        <include refid="sql_column"/>
+        from tb_item_param p left join tb_item_cat c
+        on p.item_cat_id = c.id
+    </select>
+
+
+    <!--根据类目id查询规格参数-->
+    <select id="selectByCatId" resultMap="itemParamResultMap">
+        select
+        <include refid="sql_column"/>
+        from tb_item_param p left join tb_item_cat c
+        on p.item_cat_id = c.id where p.item_cat_id=#{catId}
+    </select>
+
+
+    <insert id="insert" parameterType="TTItemParam">
+        insert into tb_item_param (<include refid="base_sql_column"/>)
+        values (#{id},#{itemCat.id},#{paramData},#{created},#{updated})
+    </insert>
+
+</mapper>
