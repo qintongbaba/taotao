@@ -1,7 +1,7 @@
 package com.wuqinghua.taotao.portal.service.impl;
 
 import com.wuqinghua.taotao.common.pojo.TaoTaoResult;
-import com.wuqinghua.taotao.common.utils.HTTPClientUtil;
+import com.wuqinghua.taotao.common.utils.HttpClientUtil;
 import com.wuqinghua.taotao.manager.pojo.TTContent;
 import com.wuqinghua.taotao.portal.service.ContentService;
 import org.springframework.beans.factory.annotation.Value;
@@ -27,7 +27,7 @@ public class ContentServiceImpl implements ContentService {
 
     @Override
     public List<Map> listIndexAdContent() {
-        String response = HTTPClientUtil.doGet(restBaseUrl + "/" + indexAdUrl);
+        String response = HttpClientUtil.doGet(restBaseUrl + "/" + indexAdUrl);
         TaoTaoResult result = TaoTaoResult.format(response, TTContent.class);
         if (result != null) {
             List<TTContent> contentList = (List<TTContent>) result.getData();
