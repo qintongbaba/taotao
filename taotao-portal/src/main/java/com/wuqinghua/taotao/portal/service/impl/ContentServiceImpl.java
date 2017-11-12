@@ -27,7 +27,7 @@ public class ContentServiceImpl implements ContentService {
 
     @Override
     public List<Map> listIndexAdContent() {
-        String response = HttpClientUtil.doGet(restBaseUrl + "/" + indexAdUrl);
+        String response = HttpClientUtil.doGet(restBaseUrl + indexAdUrl);
         TaoTaoResult result = TaoTaoResult.format(response, TTContent.class);
         if (result != null) {
             List<TTContent> contentList = (List<TTContent>) result.getData();
