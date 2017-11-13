@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wuqinghua.taotao.search.mapper.ItemMapper">
+
+
+    <resultMap id="itemVoResult" type="ItemVo">
+        <result property="itemId" column="itemId"/>
+        <result property="itemTitle" column="itemTitle"/>
+        <result property="itemSellPoint" column="itemSellPoint"/>
+        <result property="itemPrice" column="itemPrice"/>
+        <result property="itemImage" column="itemImage"/>
+        <result property="itemCategoryName" column="itemCategoryName"/>
+        <result property="itemDesc" column="itemDesc"/>
+    </resultMap>
+
+
+    <select id="getItemList" resultMap="itemVoResult">
+        select i.id as itemId,i.title as itemTitle,i.sell_point as itemSellPoint,
+        i.price as itemPrice,i.image as itemImage,c.name as itemCategoryName,
+        d.item_desc as  itemDesc
+			from tb_item i left join
+			tb_item_cat c on i.cid = c.id
+			left join tb_item_desc d
+			on d.item_id = i.id
+    </select>
+
+</mapper>
