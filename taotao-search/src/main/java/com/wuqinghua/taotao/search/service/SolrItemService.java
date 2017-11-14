@@ -1,6 +1,7 @@
 package com.wuqinghua.taotao.search.service;
 
 import com.wuqinghua.taotao.common.pojo.TaoTaoResult;
+import com.wuqinghua.taotao.search.pojo.SearchResult;
 import org.apache.solr.client.solrj.SolrServerException;
 
 import java.io.IOException;
@@ -11,4 +12,6 @@ import java.io.IOException;
 public interface SolrItemService {
 
     TaoTaoResult importAllItems();
+
+    SearchResult searchItem(String keywords, Integer page, Integer rows);
 }
